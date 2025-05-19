@@ -4,7 +4,10 @@ public class Player : MonoBehaviour
 {
     [SerializeField] float speed;
     [SerializeField] Transform cameraLock;
+    [SerializeField] float sensitivity = 100f;
     private Rigidbody rb;
+    float rotationX = 0f;
+    float rotationY = 0f;
 
     private void Start()
     {
@@ -18,17 +21,17 @@ public class Player : MonoBehaviour
         Move(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
     }
 
+    void Update()
+    {
+        Rotate();
+    }
+
     private void Move(float inputX, float inputZ)
     {
         rb.linearVelocity = new Vector3(inputX, 0, inputZ).normalized * speed + new Vector3(0, rb.linearVelocity.y, 0);
     }
 
-    public float sensitivity = 100f;
-
-    float rotationX = 0f;
-    float rotationY = 0f;
-
-    void Update()
+    private void Rotate()
     {
         float mouseX = Input.GetAxis("Mouse X") * sensitivity * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * sensitivity * Time.deltaTime;
