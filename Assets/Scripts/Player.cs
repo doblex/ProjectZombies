@@ -28,7 +28,12 @@ public class Player : MonoBehaviour
 
     private void Move(float inputX, float inputZ)
     {
-        rb.linearVelocity = new Vector3(inputX, 0, inputZ).normalized * speed + new Vector3(0, rb.linearVelocity.y, 0);
+        Vector3 inputDirection = new Vector3(inputX, 0, inputZ).normalized;
+
+        // Trasforma la direzione in local space nella direzione del transform
+        Vector3 moveDirection = transform.TransformDirection(inputDirection) * speed;
+
+        rb.linearVelocity = new Vector3(moveDirection.x, rb.linearVelocity.y, moveDirection.z);
     }
 
     private void Rotate()
