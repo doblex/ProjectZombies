@@ -4,13 +4,9 @@ using UnityEngine.AI;
 
 public class Chase : State
 {
-    StateDefinition patrol;
-    StateDefinition attack;
 
-    public Chase(GameObject _npc, NavMeshAgent _agent, Animator _anim, StateDefinition _patrol, StateDefinition _attack) : base(_npc, _agent, _anim)
+    public Chase(GameObject _npc, NavMeshAgent _agent, Animator _anim, BehaviourController _behaviour) : base(_npc, _agent, _anim, _behaviour)
     {
-        patrol = _patrol;
-        attack = _attack;
         stateName = STATE.CHASE;
     }
 
@@ -30,12 +26,12 @@ public class Chase : State
 
         if(CanAttack())
         {
-            nextState = attack.CreateState(npc, agent, anim);
+            nextState = STATE.ATTACK;
             stage = EVENT.EXIT;
         }
         else if(!CanSeePlayer())
         {
-            nextState = patrol.CreateState(npc, agent, anim);
+            nextState = STATE.PATROL;
             stage = EVENT.EXIT;
         }
     }

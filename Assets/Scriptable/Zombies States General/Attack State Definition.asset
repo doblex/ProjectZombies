@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11a24992e0da3a642b580f6c1799e85a, type: 3}
   m_Name: Attack State Definition
   m_EditorClassIdentifier: 
-  chase: {fileID: 11400000, guid: 81e64deafd741954bb801e040fe0a2b2, type: 2}
+  stateName: 3

@@ -4,10 +4,9 @@ using UnityEngine.AI;
 [CreateAssetMenu(menuName = "AI/States/Attack")]
 public class AttackStateDefinition : StateDefinition
 {
-    [SerializeField] StateDefinition chase;
-    public override State CreateState(GameObject owner, NavMeshAgent agent, Animator animator)
+    public override State CreateState(GameObject owner, NavMeshAgent agent, Animator animator, BehaviourController behaviour)
     {
-        return new Attack(owner, agent, animator, chase);
+        return new Attack(owner, agent, animator, behaviour);
     }
 }
 

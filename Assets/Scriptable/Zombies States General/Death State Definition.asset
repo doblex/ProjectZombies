@@ -9,8 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 654c506c55b2d874384568d83c668f3f, type: 3}
-  m_Name: Chase State Definition
+  m_Script: {fileID: 11500000, guid: 59c69539256c82149b844ec7cea203c6, type: 3}
+  m_Name: Death State Definition
   m_EditorClassIdentifier: 
-  patrol: {fileID: 11400000, guid: 0846bdf06a2a5d54cb2a839b9de343bd, type: 2}
-  attack: {fileID: 11400000, guid: 69d99e0bb46c0b24ebf427b0630e6129, type: 2}
+  stateName: 4

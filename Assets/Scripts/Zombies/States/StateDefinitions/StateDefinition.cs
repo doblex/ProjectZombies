@@ -3,5 +3,6 @@ using UnityEngine.AI;
 
 public abstract class StateDefinition : ScriptableObject
 {
-    public abstract State CreateState(GameObject owner, NavMeshAgent agent, Animator animator);
+    public STATE stateName;
+    public abstract State CreateState(GameObject owner, NavMeshAgent agent, Animator animator, BehaviourController behaviour);
 }

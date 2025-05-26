@@ -5,14 +5,11 @@ using Random = UnityEngine.Random;
 
 public class Patrol : State
 {
-    StateDefinition chase;
-    int currentCheckpoint = -1;
 
     Vector3 wanderTarget = Vector3.zero;
 
-    public Patrol(GameObject _npc, NavMeshAgent _agent, Animator _anim, StateDefinition _chase) : base(_npc, _agent, _anim)
+    public Patrol(GameObject _npc, NavMeshAgent _agent, Animator _anim, BehaviourController _behaviour) : base(_npc, _agent, _anim, _behaviour)
     {
-        chase = _chase;
         stateName = STATE.PATROL;
     }
 
@@ -23,8 +20,6 @@ public class Patrol : State
         agent.speed = 1f;
         agent.isStopped = false;
 
-        float lastDist = Mathf.Infinity;
-
         anim.SetBool("isWalking", true);
         wanderTarget = agent.transform.position;
     }
@@ -33,7 +28,7 @@ public class Patrol : State
     {
         if (CanSeePlayer())
         {
-            nextState = chase.CreateState(npc, agent, anim);
+            nextState = STATE.CHASE;
             stage = EVENT.EXIT;
         }
 

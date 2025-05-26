@@ -1,18 +1,13 @@
-using System;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class Attack : State
 {
-    StateDefinition chase;
-
     float rotationSpeed = 2.0f;
     AudioSource shoot;
 
-    public Attack(GameObject _npc, NavMeshAgent _agent, Animator _anim, StateDefinition _chase) : base(_npc, _agent, _anim)
+    public Attack(GameObject _npc, NavMeshAgent _agent, Animator _anim, BehaviourController _behaviour) : base(_npc, _agent, _anim, _behaviour)
     {
-        chase = _chase;
-
         stateName = STATE.ATTACK;
         shoot = _npc.GetComponent<AudioSource>();
     }
@@ -36,7 +31,7 @@ public class Attack : State
 
         if (!CanAttack())
         {
-            nextState = chase.CreateState(npc, agent, anim);
+            nextState = STATE.CHASE;
             stage = EVENT.EXIT;
         }
     }
