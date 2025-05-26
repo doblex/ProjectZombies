@@ -10,9 +10,26 @@ public class Example_PlayerMovement : MonoBehaviour
 
     [Header("Player Settings")]
     public float speed = 5f;
+    public int maxHealth = 20;
+    public event Action<float, float> OnHealthChanged;
+
+    private int _currentHealth;
+    public int CurrentHealth
+    {
+        get => _currentHealth;
+        set
+        {
+            if (_currentHealth != value)
+            {
+                _currentHealth = value;
+                OnHealthChanged?.Invoke(_currentHealth, maxHealth);
+            }
+        }
+    }
 
     private InputAction moveAction;
     private InputAction shootAction;
+    private HudUI hudUI;
 
     void Start()
     {
@@ -23,6 +40,10 @@ public class Example_PlayerMovement : MonoBehaviour
         shootAction = shootActionRef?.action;
         if (shootAction != null)
             shootAction.Enable();
+
+        hudUI = HudUI.Instance;
+
+        CurrentHealth = maxHealth;
     }
 
     void Update()
@@ -40,7 +61,15 @@ public class Example_PlayerMovement : MonoBehaviour
             // Implement shooting logic here
         }
 
+        if (Input.GetKey(KeyCode.Space))
+        {
+            CurrentHealth--;
+        }
 
+        if (Input.GetKey(KeyCode.E))
+        {
+            CurrentHealth++;
+        }
     }
 
     private void HandleMovement()

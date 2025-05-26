@@ -11,11 +11,6 @@ public class HudUI : BaseUI
     // ci sarà sempre e solo un HudUI nella scena
     // quindi si può usare il singleton senza problemi di concorrenza
     public static HudUI Instance { get; private set; }
-    private void Awake()
-    {
-        if (Instance != null && Instance != this) Destroy(gameObject);
-        Instance = this;
-    }
 
     [Header("Red Vignette")]
     [SerializeField] private Slider playerHealthBar;
@@ -31,8 +26,16 @@ public class HudUI : BaseUI
     [Header("Money")]
     [SerializeField] private TextMeshProUGUI moneyText;
 
-    private void Start()
+    private Example_PlayerMovement player;
+
+    private void Awake()
     {
+        if (Instance != null && Instance != this) Destroy(gameObject);
+        Instance = this;
+
+        player = FindAnyObjectByType<Example_PlayerMovement>(FindObjectsInactive.Include);
+        player.OnHealthChanged += SetHealthBar;
+
         globalVolume = FindAnyObjectByType<Volume>();
 
         if (globalVolume.profile.TryGet(out vignette))
@@ -43,6 +46,11 @@ public class HudUI : BaseUI
         {
             Debug.LogWarning("Nessun effetto Vignette trovato nel profilo del Volume.");
         }
+    }
+
+    void OnDestroy()
+    {
+        player.OnHealthChanged -= SetHealthBar;
     }
 
     private void Update()
