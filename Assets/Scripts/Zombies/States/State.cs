@@ -74,7 +74,7 @@ public class State
     {
         Vector3 direction = playerInfo.currentPosition - npc.transform.position;
 
-        if (direction.magnitude < parent.ShootDistance)
+        if (direction.magnitude < parent.AttackDistance + 1)
         {
             return true;
         }
@@ -90,7 +90,7 @@ public class State
         float dotProduct = Vector3.Dot(npc.transform.forward, playerInfo.forwardVector);
         
         
-        if (direction.magnitude < parent.ShootDistance && angle < 30)
+        if (direction.magnitude < parent.AttackDistance && angle < 30)
         {
             return true;
         }

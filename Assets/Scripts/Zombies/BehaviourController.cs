@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
+using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.AI;
@@ -18,20 +20,38 @@ public class BehaviourController : MonoBehaviour
     [SerializeField] STATE defaultState;
     [SerializeField]List<StateDefinition> stateDefinitions = new List<StateDefinition>();
 
-    [Header("Stats")]
+    [Header("Vision")]
     [SerializeField] float visionDistance = 15.0f;
     [SerializeField] float visionAngle = 60.0f;
-    [SerializeField] float shootDistance = 4.0f;
+
+    [Header("Rotation")]
+    [SerializeField] float rotationSpeed = 2.0f;
+
+    [Header("Attack")]
+    [SerializeField] float attackCooldown = 1.0f;
+    [SerializeField][ShowIf("isRanged", false)] int attackDamage = 1;
+    [SerializeField, Range(1f, 20f)] float attackDistance = 4.0f;
+    [SerializeField] bool isRanged = false;
+    [SerializeField][ShowIf("isRanged")] GameObject projectilePrefab;
+    [SerializeField][ShowIf("isRanged")] Transform shootPos;
+    [SerializeField][ShowIf("isRanged")] float projectileSpeed = 10.0f;
 
     [Header("DON'T TOUCH")]
-    public List<State> states = new List<State>();
-    public State currentState;
+    [ReadOnly][SerializeField] List<State> states = new List<State>();
+    [ReadOnly][SerializeField] State currentState;
 
     Transform player;
 
-    public float VisionDistance { get => visionDistance; set => visionDistance = value; }
-    public float VisionAngle { get => visionAngle; set => visionAngle = value; }
-    public float ShootDistance { get => shootDistance; set => shootDistance = value; }
+    public float VisionDistance { get => visionDistance; }
+    public float VisionAngle { get => visionAngle; }
+    public float AttackDistance { get => attackDistance;}
+    public float RotationSpeed { get => rotationSpeed; }
+    public bool IsRanged { get => isRanged;}
+    public float ProjectileSpeed { get => projectileSpeed;}
+    public float AttackCooldown { get => attackCooldown;}
+    public int AttackDamage { get => attackDamage;}
+    public GameObject ProjectilePrefab { get => projectilePrefab;}
+    public Transform ShootPos { get => shootPos;}
 
     private void Start()
     {
@@ -46,7 +66,6 @@ public class BehaviourController : MonoBehaviour
     {
         behaviourController.ChangeState(STATE.DEATH);
     }
-
 
     private void Update()
     {

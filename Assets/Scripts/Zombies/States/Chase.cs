@@ -20,7 +20,18 @@ public class Chase : State
 
     public override void Update()
     {
-        agent.SetDestination(playerInfo.currentPosition);
+        Vector3 direzione = (playerInfo.currentPosition - agent.transform.position).normalized;
+
+        // Punto a distanza desiderata dal giocatore verso il nemico
+        Vector3 targetPos = playerInfo.currentPosition - direzione * parent.AttackDistance;
+
+        // Verifica che il punto sia sulla NavMesh
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(targetPos, out hit, 1.0f, NavMesh.AllAreas))
+        {
+            agent.SetDestination(hit.position);
+        }
+
 
         if (!agent.hasPath) return;
 
