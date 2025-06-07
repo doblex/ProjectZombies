@@ -26,15 +26,12 @@ public class HudUI : BaseUI
     [Header("Money")]
     [SerializeField] private TextMeshProUGUI moneyText;
 
-    private Example_PlayerMovement player;
+    private PlayerInput player;
 
     private void Awake()
     {
         if (Instance != null && Instance != this) Destroy(gameObject);
         Instance = this;
-
-        player = FindAnyObjectByType<Example_PlayerMovement>(FindObjectsInactive.Include);
-        player.OnHealthChanged += SetHealthBar;
 
         globalVolume = FindAnyObjectByType<Volume>();
 
@@ -46,11 +43,6 @@ public class HudUI : BaseUI
         {
             Debug.LogWarning("Nessun effetto Vignette trovato nel profilo del Volume.");
         }
-    }
-
-    void OnDestroy()
-    {
-        player.OnHealthChanged -= SetHealthBar;
     }
 
     private void Update()
