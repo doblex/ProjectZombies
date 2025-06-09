@@ -14,7 +14,6 @@ public class AIManager : MonoBehaviour
     public static event PlayerInfoDelegate OnPlayerInfo;
 
     private Player player;
-    private AIController[] controller;
 
     private PlayerInfo playerInfo;
 

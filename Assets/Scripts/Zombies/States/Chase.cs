@@ -4,13 +4,9 @@ using UnityEngine.AI;
 
 public class Chase : State
 {
-    StateDefinition patrol;
-    StateDefinition attack;
 
-    public Chase(GameObject _npc, NavMeshAgent _agent, Animator _anim, StateDefinition _patrol, StateDefinition _attack) : base(_npc, _agent, _anim)
+    public Chase(GameObject _npc, NavMeshAgent _agent, Animator _anim, BehaviourController _behaviour) : base(_npc, _agent, _anim, _behaviour)
     {
-        patrol = _patrol;
-        attack = _attack;
         stateName = STATE.CHASE;
     }
 
@@ -24,18 +20,29 @@ public class Chase : State
 
     public override void Update()
     {
-        agent.SetDestination(playerInfo.currentPosition);
+        Vector3 direzione = (playerInfo.currentPosition - agent.transform.position).normalized;
+
+        // Punto a distanza desiderata dal giocatore verso il nemico
+        Vector3 targetPos = playerInfo.currentPosition - direzione * parent.AttackDistance;
+
+        // Verifica che il punto sia sulla NavMesh
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(targetPos, out hit, 1.0f, NavMesh.AllAreas))
+        {
+            agent.SetDestination(hit.position);
+        }
+
 
         if (!agent.hasPath) return;
 
         if(CanAttack())
         {
-            nextState = attack.CreateState(npc, agent, anim);
+            nextState = STATE.ATTACK;
             stage = EVENT.EXIT;
         }
         else if(!CanSeePlayer())
         {
-            nextState = patrol.CreateState(npc, agent, anim);
+            nextState = STATE.PATROL;
             stage = EVENT.EXIT;
         }
     }

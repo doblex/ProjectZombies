@@ -6,23 +6,21 @@ using UnityEngine.AI;
 public class State
 {
     public STATE stateName;
-    protected EVENT stage;
+    public EVENT stage;
 
     protected GameObject npc;
     protected Animator anim;
     protected PlayerInfo playerInfo;
-    protected State nextState;
+    protected STATE nextState;
     protected NavMeshAgent agent;
+    protected BehaviourController parent;
 
-    protected float visionDistance = 15.0f;
-    protected float visionAngle = 60.0f;
-    protected float shootDistance = 4.0f;
-
-    public State(GameObject _npc, NavMeshAgent _agent, Animator _anim)
+    public State(GameObject _npc, NavMeshAgent _agent, Animator _anim, BehaviourController _behaviuor)
     {
         npc = _npc;
         agent = _agent;
         anim = _anim;
+        parent = _behaviuor;
         stage = EVENT.ENTER;
     }
 
@@ -40,7 +38,7 @@ public class State
         AIManager.OnPlayerInfo -= GetPlayerInfo;
     }
 
-    public State Process()
+    public STATE Process()
     {
         if (stage == EVENT.ENTER) Enter();
         else if(stage == EVENT.UPDATE) Update();
@@ -50,7 +48,7 @@ public class State
             return nextState;
         }
 
-        return this;
+        return stateName;
     }
 
     void GetPlayerInfo(PlayerInfo _playerInfo)
@@ -63,7 +61,7 @@ public class State
         Vector3 direction = playerInfo.currentPosition - npc.transform.position;
         float angle = Vector3.Angle(direction, npc.transform.forward);
 
-        if(direction.magnitude < visionDistance && angle < visionAngle)
+        if(direction.magnitude < parent.VisionDistance && angle < parent.VisionAngle)
         {
             return true;
         }
@@ -76,7 +74,7 @@ public class State
     {
         Vector3 direction = playerInfo.currentPosition - npc.transform.position;
 
-        if (direction.magnitude < shootDistance)
+        if (direction.magnitude < parent.AttackDistance + 1)
         {
             return true;
         }
@@ -92,7 +90,7 @@ public class State
         float dotProduct = Vector3.Dot(npc.transform.forward, playerInfo.forwardVector);
         
         
-        if (direction.magnitude < shootDistance && angle < 30)
+        if (direction.magnitude < parent.AttackDistance && angle < 30)
         {
             return true;
         }

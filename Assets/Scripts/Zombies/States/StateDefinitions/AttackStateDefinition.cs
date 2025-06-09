@@ -1,13 +1,12 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 
-[CreateAssetMenu(menuName = "AI/States/Attack")]
+[CreateAssetMenu(menuName = "AI/States/MeleeAttack")]
 public class AttackStateDefinition : StateDefinition
 {
-    [SerializeField] StateDefinition chase;
-    public override State CreateState(GameObject owner, NavMeshAgent agent, Animator animator)
+    public override State CreateState(GameObject owner, NavMeshAgent agent, Animator animator, BehaviourController behaviour)
     {
-        return new Attack(owner, agent, animator, chase);
+        return new Attack(owner, agent, animator, behaviour);
     }
 }
 

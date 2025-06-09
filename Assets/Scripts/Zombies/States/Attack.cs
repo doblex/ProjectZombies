@@ -4,15 +4,11 @@ using UnityEngine.AI;
 
 public class Attack : State
 {
-    StateDefinition chase;
-
-    float rotationSpeed = 2.0f;
     AudioSource shoot;
+    float attackTimer = 0f; // Cooldown time between attacks
 
-    public Attack(GameObject _npc, NavMeshAgent _agent, Animator _anim, StateDefinition _chase) : base(_npc, _agent, _anim)
+    public Attack(GameObject _npc, NavMeshAgent _agent, Animator _anim, BehaviourController _behaviour) : base(_npc, _agent, _anim, _behaviour)
     {
-        chase = _chase;
-
         stateName = STATE.ATTACK;
         shoot = _npc.GetComponent<AudioSource>();
     }
@@ -22,6 +18,7 @@ public class Attack : State
         base.Enter();
         anim.SetBool("isAttacking", true);
         agent.isStopped = true;
+        attackTimer = parent.AttackCooldown;
         //shoot.Play();
     }
 
@@ -32,19 +29,30 @@ public class Attack : State
         direction.y = 0;
 
         npc.transform.rotation = Quaternion.Slerp
-            (npc.transform.rotation, Quaternion.LookRotation(direction), Time.deltaTime * rotationSpeed);
+            (npc.transform.rotation, Quaternion.LookRotation(direction), Time.deltaTime * parent.RotationSpeed);
+
+        attackTimer += Time.deltaTime;
 
         if (!CanAttack())
         {
-            nextState = chase.CreateState(npc, agent, anim);
+            nextState = STATE.CHASE;
             stage = EVENT.EXIT;
         }
+        else if (attackTimer >= parent.AttackCooldown)
+        {
+            PerformAttack();
+            attackTimer = 0f;
+        }
+    }
+
+    protected virtual void PerformAttack() 
+    {
+        anim.SetTrigger("trAttack");
     }
 
     public override void Exit()
     {
         anim.SetBool("isAttacking", false);
-        //shoot.Stop();
         base.Exit();
     }
 }

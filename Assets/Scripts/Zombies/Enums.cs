@@ -7,7 +7,10 @@ public enum ZombieType
 
 public enum STATE
 {
-    IDLE, PATROL, CHASE, ATTACK,
+    IDLE, 
+    PATROL, 
+    CHASE, 
+    ATTACK,
     DEATH
 }
 

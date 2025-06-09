@@ -4,13 +4,9 @@ using UnityEngine.AI;
 
 public class Idle : State
 {
-    StateDefinition patrol;
-    StateDefinition chase;
 
-    public Idle(GameObject _npc, NavMeshAgent _agent, Animator _anim, StateDefinition _patrol, StateDefinition _chase) : base(_npc, _agent, _anim)
+    public Idle(GameObject _npc, NavMeshAgent _agent, Animator _anim, BehaviourController _behaviour) : base(_npc, _agent, _anim, _behaviour)
     {
-        patrol = _patrol;
-        chase = _chase;
         stateName = STATE.IDLE;
     }
 
@@ -26,13 +22,13 @@ public class Idle : State
     {
         if(CanSeePlayer())
         {
-            nextState = chase.CreateState(npc, agent, anim);
+            nextState = STATE.CHASE;
             stage = EVENT.EXIT;
         }
 
         else if (UnityEngine.Random.Range(0, 100) > 60)
         {
-            nextState = patrol.CreateState(npc, agent, anim);
+            nextState = STATE.PATROL;
             stage = EVENT.EXIT;
         }
     }
