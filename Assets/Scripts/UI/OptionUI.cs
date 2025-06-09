@@ -1,23 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class OptionUI : BaseUI
 {
-    private void OnEnable()
-    {
-        InputManager.Instance.inputActions.Disable();
-    }
-
-    private void OnDisable()
-    {
-        InputManager.Instance.inputActions.Enable();
-    }
+    [Header("Debugging Variables")]
+    [ReadOnly] public UIManager.GameUI previousGameUI;
 
     public void GoToMainMenu()
     {
-        UIManager.instance.ShowUI(UIManager.GameUI.MainMenu);
-        // dipende se serve ricaricare la scena
-        // SceneManager.LoadScene(0);
+        UIManager.instance.ShowUI(previousGameUI);
     }
 }

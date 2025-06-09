@@ -77,11 +77,11 @@ public class PlayerInput : MonoBehaviour
     }
     #endregion
 
-    #region JUMP
-    public bool IsJumping;
+    #region CLIMB
+    public bool IsClimbing;
     void OnJump(InputValue value)
     {
-        IsJumping = value.isPressed;
+        IsClimbing = value.isPressed;
     }
     #endregion
 

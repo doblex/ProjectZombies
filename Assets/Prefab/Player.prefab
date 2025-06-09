@@ -126,9 +126,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3711767248305818404}
+  - component: {fileID: 5513753686706270846}
+  - component: {fileID: 7212570762535491225}
+  - component: {fileID: 4077149479111030510}
   - component: {fileID: 1152163537845512548}
   - component: {fileID: 4148622022020762114}
-  - component: {fileID: 5513753686706270846}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -153,6 +155,86 @@ Transform:
   - {fileID: 7952000830444795014}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5513753686706270846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5442628263561834625}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 876efdd06eaf32c47961f089ae66d14d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 5
+  sprintSpeed: 7
+  cameraLock: {fileID: 7952000830444795014}
+  sensitivity: 5
+  crouchScale: 0.5
+  crouchSpeed: 3
+  climbableLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  maxDistanceFromWall: 2
+  rayOriginOffset: {x: 0, y: 0, z: 0}
+  minAngle: 80
+  maxAngle: 100
+  maxHeight: 5
+  climbSpeed: 10
+  activateDebug: 0
+--- !u!114 &7212570762535491225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5442628263561834625}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45f5db6bfe6e63b4680617919a5805c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _moveInput: {x: 0, y: 0}
+  _lookInput: {x: 0, y: 0}
+  IsFiring: 0
+  IsAiming: 0
+  IsRebuilding: 0
+  IsCrouching: 0
+  IsClimbing: 0
+  IsSprinting: 0
+  SelectedWeaponIndex: 0
+  CurrentFiringMode: 0
+--- !u!114 &4077149479111030510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5442628263561834625}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Player
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!136 &1152163537845512548
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -160,7 +242,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5442628263561834625}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 0610192aabfbc7b43bf96179f466802f, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -203,34 +285,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &5513753686706270846
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5442628263561834625}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 876efdd06eaf32c47961f089ae66d14d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 5
-  sprintSpeed: 7
-  cameraLock: {fileID: 7952000830444795014}
-  sensitivity: 100
-  crouchScale: 0.5
-  crouchSpeed: 3
-  climbableLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  maxDistanceFromWall: 2
-  rayOriginOffset: {x: 0, y: 0, z: 0}
-  minAngle: 80
-  maxAngle: 100
-  maxHeight: 5
-  climbSpeed: 10
-  activateDebug: 0
 --- !u!1 &8966933490153573910
 GameObject:
   m_ObjectHideFlags: 0

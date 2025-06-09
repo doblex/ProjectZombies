@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Button))]
 public class RebindButton : MonoBehaviour
 {
     public enum AxisDimension { X, Y }

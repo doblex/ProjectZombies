@@ -12,6 +12,9 @@ public class MainMenuUI : BaseUI
     public void GoToOptions()
     {
         UIManager.instance.ShowUI(UIManager.GameUI.Option);
+        OptionUI optionUI = FindAnyObjectByType<OptionUI>(FindObjectsInactive.Include);
+
+        optionUI.previousGameUI = GetUIType();
     }
 
     public void ExitGame()

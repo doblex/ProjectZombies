@@ -1,6 +1,7 @@
 using UnityEngine;
-using static UnityEngine.UI.Image;
+using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(PlayerInput))]
 public class Player : MonoBehaviour
 {
     [Header("Player Settings")]
@@ -26,6 +27,7 @@ public class Player : MonoBehaviour
     [SerializeField] bool activateDebug;
 
     Rigidbody rb;
+    PlayerInput playerInput;
     float rotationX = 0f;
     float rotationY = 0f;
     bool crouching = false;
@@ -35,6 +37,7 @@ public class Player : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        playerInput = GetComponent<PlayerInput>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
@@ -42,7 +45,7 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         if (isClimbing) { return; }
-        Move(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        Move(playerInput.MoveInput.x, playerInput.MoveInput.y);
     }
 
     void Update()
@@ -78,8 +81,8 @@ public class Player : MonoBehaviour
 
     private void Rotate()
     {
-        float mouseX = Input.GetAxis("Mouse X") * sensitivity * Time.deltaTime;
-        float mouseY = Input.GetAxis("Mouse Y") * sensitivity * Time.deltaTime;
+        float mouseX = playerInput.LookInput.x * sensitivity * Time.deltaTime;
+        float mouseY = playerInput.LookInput.y * sensitivity * Time.deltaTime;
 
         // Rotazione verticale (guardare su/giù)
         rotationX -= mouseY;
@@ -94,13 +97,13 @@ public class Player : MonoBehaviour
 
     private void Crouch()
     {
-        if (Input.GetKey(KeyCode.LeftControl))
+        if (playerInput.IsCrouching)
         {
             crouching = true;
             transform.localScale = new Vector3(transform.localScale.x, crouchScale, transform.localScale.z);
             return;
         }
-        if (Input.GetKeyUp(KeyCode.LeftControl))
+        else
         {
             crouching = false;
             transform.localScale = new Vector3(transform.localScale.x, 1, transform.localScale.z);
@@ -109,7 +112,7 @@ public class Player : MonoBehaviour
 
     private void Climb()
     {
-        if (Input.GetKey(KeyCode.Space))
+        if (playerInput.IsClimbing)
         {
             if (CheckForLedge())
             {
