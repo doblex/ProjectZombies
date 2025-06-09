@@ -5,6 +5,7 @@ public class Player : MonoBehaviour
 {
     [Header("Player Settings")]
     [SerializeField] float speed;
+    [SerializeField] float sprintSpeed;
     [SerializeField] Transform cameraLock;
     [SerializeField] float sensitivity = 100f;
 
@@ -68,7 +69,7 @@ public class Player : MonoBehaviour
     {
         Vector3 inputDirection = new Vector3(inputX, 0, inputZ).normalized;
 
-        float actualSpeed = crouching ? crouchSpeed : speed;
+        float actualSpeed = crouching ? crouchSpeed : Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : speed;
         // Trasforma la direzione in local space nella direzione del transform
         Vector3 moveDirection = transform.TransformDirection(inputDirection) * actualSpeed;
 
