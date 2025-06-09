@@ -12,6 +12,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Francesco UI.unity
     guid: 680778f6b23cbe24389f183b9fb90651
   m_configObjects:
-    com.unity.input.settings: {fileID: 11400000, guid: 9ceeede7a5a7fcf46bb9a91e009b27cf, type: 2}
+    com.unity.input.settings: {fileID: 11400000, guid: 9e7be553448fa2546aea5752021cbcf7, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
