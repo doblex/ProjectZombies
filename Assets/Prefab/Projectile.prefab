@@ -157,6 +157,7 @@ MonoBehaviour:
   AoeDuration: 4
   damage: 1
   projectileDuration: 5
+  terrainOffset: 0.2
 --- !u!96 &9078051722340902819
 TrailRenderer:
   serializedVersion: 3

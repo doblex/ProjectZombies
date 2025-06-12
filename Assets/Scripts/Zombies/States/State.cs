@@ -70,16 +70,22 @@ public class State
     }
 
 
-    public bool CanAttack()
+    public COMBATRANGE CanAttack()
     {
         Vector3 direction = playerInfo.currentPosition - npc.transform.position;
 
-        if (direction.magnitude < parent.AttackDistance + 1)
+        if (direction.magnitude > parent.AttackDistance + 1)
         {
-            return true;
+            return COMBATRANGE.FAR;
         }
-
-            return false;
+        else if (direction.magnitude < parent.MinimumRange)
+        {
+            return COMBATRANGE.CLOSE;
+        }
+        else
+        {
+            return COMBATRANGE.RANGE;
+        }
     }
 
     public bool IsPlayerBehind()

@@ -17,7 +17,7 @@ public class Patrol : State
     {
         base.Enter();
 
-        agent.speed = 1f;
+        agent.speed = parent.WanderSpeed;
         agent.isStopped = false;
 
         anim.SetBool("isWalking", true);

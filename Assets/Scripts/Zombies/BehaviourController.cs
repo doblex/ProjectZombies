@@ -31,10 +31,17 @@ public class BehaviourController : MonoBehaviour
     [SerializeField] float attackCooldown = 1.0f;
     [SerializeField][ShowIf("isRanged", false)] int attackDamage = 1;
     [SerializeField, Range(1f, 20f)] float attackDistance = 4.0f;
+    [SerializeField, Range(1f, 20f)] float minimumRange = 0.0f;
     [SerializeField] bool isRanged = false;
     [SerializeField][ShowIf("isRanged")] GameObject projectilePrefab;
     [SerializeField][ShowIf("isRanged")] Transform shootPos;
     [SerializeField][ShowIf("isRanged")] float projectileSpeed = 10.0f;
+
+    [Header("Speeds")]
+    [SerializeField] float wanderSpeed = 1f;
+    [SerializeField] float chaseSpeed = 2f;
+    [SerializeField] float repositionSpeed = 1f;
+
 
     [Header("DON'T TOUCH")]
     [ReadOnly][SerializeField] List<State> states = new List<State>();
@@ -52,6 +59,10 @@ public class BehaviourController : MonoBehaviour
     public int AttackDamage { get => attackDamage;}
     public GameObject ProjectilePrefab { get => projectilePrefab;}
     public Transform ShootPos { get => shootPos;}
+    public float MinimumRange { get => minimumRange; }
+    public float WanderSpeed { get => wanderSpeed; }
+    public float ChaseSpeed { get => chaseSpeed; }
+    public float RepositionSpeed { get => repositionSpeed; }
 
     private void Start()
     {
@@ -105,6 +116,18 @@ public class BehaviourController : MonoBehaviour
                 return;
             }
         }
+    }
+
+    public bool HasStateDefinition(STATE stateName)
+    {
+        foreach (var state in stateDefinitions)
+        {
+            if (state.stateName == stateName)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     public bool HasState(STATE stateName)

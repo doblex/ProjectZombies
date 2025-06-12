@@ -8,6 +8,7 @@ public class Projectile : MonoBehaviour
     [SerializeField] float AoeDuration;
     [SerializeField] int damage;
     [SerializeField] float projectileDuration = 10f;
+    [SerializeField] float terrainOffset = 0.2f;
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -33,7 +34,7 @@ public class Projectile : MonoBehaviour
 
         GameObject go = Instantiate(AoePrefab);
 
-        go.transform.position = hit.point;
+        go.transform.position = new Vector3(hit.point.x, hit.point.y + terrainOffset, hit.point.z);
 
         Destroy(go, AoeDuration);
         Destroy(gameObject);

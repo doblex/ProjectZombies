@@ -13,7 +13,7 @@ public class Chase : State
     public override void Enter()
     {
         base.Enter();
-        agent.speed = 5;
+        agent.speed = parent.ChaseSpeed;
         agent.isStopped = false;
         anim.SetBool("isRunning", true);
     }
@@ -35,15 +35,21 @@ public class Chase : State
 
         if (!agent.hasPath) return;
 
-        if(CanAttack())
+
+        switch (CanAttack())
         {
-            nextState = STATE.ATTACK;
-            stage = EVENT.EXIT;
-        }
-        else if(!CanSeePlayer())
-        {
-            nextState = STATE.PATROL;
-            stage = EVENT.EXIT;
+            case COMBATRANGE.CLOSE:
+                if (parent.HasStateDefinition(STATE.REPOSITION))
+                {
+                    nextState = STATE.REPOSITION;
+                    stage = EVENT.EXIT;
+                }
+                break;
+
+            case COMBATRANGE.RANGE:
+                nextState = STATE.ATTACK;
+                stage = EVENT.EXIT;
+                break;
         }
     }
 

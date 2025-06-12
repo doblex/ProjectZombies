@@ -33,15 +33,26 @@ public class Attack : State
 
         attackTimer += Time.deltaTime;
 
-        if (!CanAttack())
+        switch (CanAttack())
         {
-            nextState = STATE.CHASE;
-            stage = EVENT.EXIT;
-        }
-        else if (attackTimer >= parent.AttackCooldown)
-        {
-            PerformAttack();
-            attackTimer = 0f;
+            case COMBATRANGE.CLOSE:
+                if (parent.HasStateDefinition(STATE.REPOSITION))
+                {
+                    nextState = STATE.REPOSITION;
+                    stage = EVENT.EXIT;
+                }
+                break;
+            case COMBATRANGE.RANGE:
+                if (attackTimer >= parent.AttackCooldown)
+                {
+                    PerformAttack();
+                    attackTimer = 0f;
+                }
+                break;
+            case COMBATRANGE.FAR:
+                nextState = STATE.CHASE;
+                stage = EVENT.EXIT;
+                break;
         }
     }
 

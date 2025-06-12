@@ -11,10 +11,18 @@ public enum STATE
     PATROL, 
     CHASE, 
     ATTACK,
-    DEATH
+    DEATH,
+    REPOSITION
 }
 
 public enum EVENT
 {
     ENTER, UPDATE, EXIT
+}
+
+public enum COMBATRANGE
+{
+    CLOSE,
+    RANGE,
+    FAR
 }
