@@ -1,4 +1,6 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.Rendering;
 using utilities.Controllers;
 
 public class Projectile : MonoBehaviour
@@ -17,7 +19,7 @@ public class Projectile : MonoBehaviour
             if (collision.gameObject.TryGetComponent<HealthController>(out HealthController controller))
             {
                 controller.DoDamage(damage);
-                SpawnAoE();
+                
             }
         }
         else
@@ -32,11 +34,13 @@ public class Projectile : MonoBehaviour
 
         Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 100f, terrain);
 
-        GameObject go = Instantiate(AoePrefab);
+        GameObject go = ObjectPooling.Instance.GetOrAdd(AoePrefab, false);
 
         go.transform.position = new Vector3(hit.point.x, hit.point.y + terrainOffset, hit.point.z);
+        go.transform.rotation = Quaternion.Euler(90,0,0);
 
-        Destroy(go, AoeDuration);
-        Destroy(gameObject);
+        ObjectPooling.Instance.ReturnToPool(go, AoeDuration);
+
+        ObjectPooling.Instance.ReturnToPool(gameObject);
     }
 }

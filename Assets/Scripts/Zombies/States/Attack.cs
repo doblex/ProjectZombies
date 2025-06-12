@@ -16,7 +16,7 @@ public class Attack : State
     public override void Enter()
     {
         base.Enter();
-        anim.SetBool("isAttacking", true);
+        //anim.SetBool("isAttacking", true);
         agent.isStopped = true;
         attackTimer = parent.AttackCooldown;
         //shoot.Play();
@@ -63,7 +63,7 @@ public class Attack : State
 
     public override void Exit()
     {
-        anim.SetBool("isAttacking", false);
+        //anim.SetBool("isAttacking", false);
         base.Exit();
     }
 }

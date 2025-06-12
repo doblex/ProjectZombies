@@ -15,6 +15,8 @@ public class State
     protected NavMeshAgent agent;
     protected BehaviourController parent;
 
+    public PlayerInfo PlayerInfo { get => playerInfo; }
+
     public State(GameObject _npc, NavMeshAgent _agent, Animator _anim, BehaviourController _behaviuor)
     {
         npc = _npc;

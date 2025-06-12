@@ -14,7 +14,6 @@ public class BehaviourController : MonoBehaviour
     [SerializeField] Animator animator;
     NavMeshAgent agent;
     HealthController healthController;
-    BehaviourController behaviourController;
 
     [Header("States")]
     [SerializeField] STATE defaultState;
@@ -63,11 +62,11 @@ public class BehaviourController : MonoBehaviour
     public float WanderSpeed { get => wanderSpeed; }
     public float ChaseSpeed { get => chaseSpeed; }
     public float RepositionSpeed { get => repositionSpeed; }
+    public State CurrentState { get => currentState; }
 
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        behaviourController = GetComponent<BehaviourController>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
         healthController = GetComponent<HealthController>();
         healthController.onDeath += OnDeath;
@@ -75,7 +74,7 @@ public class BehaviourController : MonoBehaviour
 
     private void OnDeath()
     {
-        behaviourController.ChangeState(STATE.DEATH);
+        ChangeState(STATE.DEATH);
     }
 
     private void Update()
