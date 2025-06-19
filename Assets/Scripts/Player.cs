@@ -1,3 +1,5 @@
+using System;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,8 +9,14 @@ public class Player : MonoBehaviour
     [Header("Player Settings")]
     [SerializeField] float speed;
     [SerializeField] float sprintSpeed;
+
+    [Header("Camera Settings")]
     [SerializeField] Transform cameraLock;
+    [SerializeField] CinemachineCamera cinemachineCamera;
+    private float previousFOV = 60f;
     [SerializeField] float sensitivity = 100f;
+    [SerializeField] float maxDownCamera;
+    [SerializeField] float maxUpCamera;
 
     [Header("Crouch Settings")]
     [SerializeField] float crouchScale;
@@ -40,6 +48,7 @@ public class Player : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        previousFOV = cinemachineCamera.Lens.FieldOfView;
     }
 
     private void FixedUpdate()
@@ -68,15 +77,27 @@ public class Player : MonoBehaviour
         Climb();
     }
 
+    // OLD
     private void Move(float inputX, float inputZ)
     {
         Vector3 inputDirection = new Vector3(inputX, 0, inputZ).normalized;
 
         float actualSpeed = crouching ? crouchSpeed : Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : speed;
+
+        // Cambia FOV
+        float fov = actualSpeed == sprintSpeed ? 80f : 60f;
+        previousFOV = cinemachineCamera.Lens.FieldOfView;
+        ChangeFOV(fov);
+
         // Trasforma la direzione in local space nella direzione del transform
         Vector3 moveDirection = transform.TransformDirection(inputDirection) * actualSpeed;
 
         rb.linearVelocity = new Vector3(moveDirection.x, rb.linearVelocity.y, moveDirection.z);
+    }
+
+    private void ChangeFOV(float fov)
+    {
+        cinemachineCamera.Lens.FieldOfView = Mathf.Lerp(previousFOV, fov, Time.deltaTime * 5f);
     }
 
     private void Rotate()
@@ -86,7 +107,7 @@ public class Player : MonoBehaviour
 
         // Rotazione verticale (guardare su/giù)
         rotationX -= mouseY;
-        rotationX = Mathf.Clamp(rotationX, -90f, 90f); // Limita l'inclinazione
+        rotationX = Mathf.Clamp(rotationX, -maxUpCamera, maxDownCamera); // Limita l'inclinazione
 
         // Rotazione orizzontale (guardare a destra/sinistra)
         rotationY += mouseX;

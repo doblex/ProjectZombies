@@ -7,7 +7,7 @@ public class Projectile : MonoBehaviour
     [SerializeField] GameObject AoePrefab;
     [SerializeField] float AoeDuration;
     [SerializeField] int damage;
-    [SerializeField] float projectileDuration = 10f;
+    //[SerializeField] float projectileDuration = 10f;
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -25,7 +25,7 @@ public class Projectile : MonoBehaviour
         }
     }
 
-    private void SpawnAoE() 
+    private void SpawnAoE()
     {
         if (AoePrefab == null) return;
 

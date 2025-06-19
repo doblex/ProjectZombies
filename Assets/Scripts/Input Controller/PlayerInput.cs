@@ -79,7 +79,7 @@ public class PlayerInput : MonoBehaviour
 
     #region CLIMB
     public bool IsClimbing;
-    void OnJump(InputValue value)
+    void OnClimb(InputValue value)
     {
         IsClimbing = value.isPressed;
     }
@@ -135,17 +135,4 @@ public class PlayerInput : MonoBehaviour
         CurrentFiringMode = (FiringMode)(((int)CurrentFiringMode + 1) % System.Enum.GetValues(typeof(FiringMode)).Length);
     }
     #endregion
-
-
-    // TESTING
-    void Update()
-    {
-        HandleMovement();
-    }
-
-    private void HandleMovement()
-    {
-        Vector3 move = new Vector3(MoveInput.x, 0, MoveInput.y) * 5f * Time.deltaTime;
-        transform.Translate(move, Space.World);
-    }
 }

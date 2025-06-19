@@ -161,7 +161,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Action: {fileID: 0}
   m_BindingId: 
-  m_DisplayStringOptions: 0
+  m_DisplayStringOptions: 6
   m_ActionLabel: {fileID: 0}
   m_BindingText: {fileID: 0}
   m_RebindOverlay: {fileID: 0}
