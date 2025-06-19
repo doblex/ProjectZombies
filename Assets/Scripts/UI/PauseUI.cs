@@ -5,6 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class PauseUI : BaseUI
 {
+    private void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.Escape))
+        {
+            UIManager.instance.ShowUI(UIManager.GameUI.HUD);
+        }
+    }
 
     public void GoToMainMenu()
     {
@@ -14,5 +21,13 @@ public class PauseUI : BaseUI
     public void GoToHud()
     {
         UIManager.instance.ShowUI(UIManager.GameUI.HUD);
+    }
+
+    public void GoToOptions()
+    {
+        UIManager.instance.ShowUI(UIManager.GameUI.Option);
+        OptionUI optionUI = FindAnyObjectByType<OptionUI>(FindObjectsInactive.Include);
+
+        optionUI.previousGameUI = GetUIType();
     }
 }

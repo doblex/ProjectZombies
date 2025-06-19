@@ -28,7 +28,7 @@ public class Projectile : MonoBehaviour
         }
     }
 
-    private void SpawnAoE() 
+    private void SpawnAoE()
     {
         if (AoePrefab == null) return;
 
