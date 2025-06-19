@@ -9,7 +9,7 @@ public class PauseUI : BaseUI
     {
         if (Input.GetKeyUp(KeyCode.Escape))
         {
-            UIManager.instance.ShowUI(UIManager.GameUI.HUD);
+            UIManager.Instance.ShowUI(UIManager.GameUI.HUD);
         }
     }
 
@@ -20,12 +20,12 @@ public class PauseUI : BaseUI
 
     public void GoToHud()
     {
-        UIManager.instance.ShowUI(UIManager.GameUI.HUD);
+        UIManager.Instance.ShowUI(UIManager.GameUI.HUD);
     }
 
     public void GoToOptions()
     {
-        UIManager.instance.ShowUI(UIManager.GameUI.Option);
+        UIManager.Instance.ShowUI(UIManager.GameUI.Option);
         OptionUI optionUI = FindAnyObjectByType<OptionUI>(FindObjectsInactive.Include);
 
         optionUI.previousGameUI = GetUIType();

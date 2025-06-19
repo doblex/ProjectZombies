@@ -3,7 +3,7 @@ using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(PlayerInput))]
+[RequireComponent(typeof(PlayerInputManager))]
 public class Player : MonoBehaviour
 {
     [Header("Player Settings")]
@@ -31,11 +31,16 @@ public class Player : MonoBehaviour
     [SerializeField] float maxHeight;
     [SerializeField] float climbSpeed;
 
+    [Header("Rebuilding Settings")]
+    [SerializeField] private float rebuildRange = 3f;
+    [SerializeField] private float rebuildTime = 1f;
+    private float _rebuildTimer = 0f;
+
     [Header("Debug")]
     [SerializeField] bool activateDebug;
 
     Rigidbody rb;
-    PlayerInput playerInput;
+    PlayerInputManager playerInput;
     float rotationX = 0f;
     float rotationY = 0f;
     bool crouching = false;
@@ -45,7 +50,7 @@ public class Player : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-        playerInput = GetComponent<PlayerInput>();
+        playerInput = GetComponent<PlayerInputManager>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         previousFOV = cinemachineCamera.Lens.FieldOfView;
@@ -55,6 +60,8 @@ public class Player : MonoBehaviour
     {
         if (isClimbing) { return; }
         Move(playerInput.MoveInput.x, playerInput.MoveInput.y);
+
+        CheckForRebuilding();
     }
 
     void Update()
@@ -77,7 +84,7 @@ public class Player : MonoBehaviour
         Climb();
     }
 
-    // OLD
+    #region MOVEMENT
     private void Move(float inputX, float inputZ)
     {
         Vector3 inputDirection = new Vector3(inputX, 0, inputZ).normalized;
@@ -161,5 +168,45 @@ public class Player : MonoBehaviour
             }
         }
         return false;
+    }
+    #endregion
+
+    private void CheckForRebuilding()
+    {
+        IDamageable damageable = null;
+
+        Ray ray = new Ray(cameraLock.position, cameraLock.forward);
+        if (Physics.Raycast(ray, out RaycastHit hit, rebuildRange))
+        {
+            if (hit.collider.TryGetComponent(out damageable))
+            {
+                if (damageable is Barricade barricade)
+                {
+                    // Show the interact UI
+                    FindAnyObjectByType<HudUI>(FindObjectsInactive.Include).ShowRebuildInteract(InteractionType.Rebuild);
+                }
+            }
+        }
+        else
+        {
+            FindAnyObjectByType<HudUI>(FindObjectsInactive.Include).HideRebuildInteract();
+        }
+
+        if (damageable != null && playerInput.IsRebuilding)
+        {
+            if (damageable is Barricade barricade)
+            {
+                if (_rebuildTimer <= 0f)
+                {
+                    Debug.Log($"Rebuilding {barricade.name} by 10");
+                    barricade.Heal(10f); // Heal the barricade by 10 points
+                    _rebuildTimer = rebuildTime; // Reset the timer
+                }
+                else
+                {
+                    _rebuildTimer -= Time.deltaTime; // Decrease the timer
+                }
+            }
+        }
     }
 }

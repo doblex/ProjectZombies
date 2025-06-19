@@ -10,6 +10,6 @@ public class OptionUI : BaseUI
 
     public void GoToMainMenu()
     {
-        UIManager.instance.ShowUI(previousGameUI);
+        UIManager.Instance.ShowUI(previousGameUI);
     }
 }

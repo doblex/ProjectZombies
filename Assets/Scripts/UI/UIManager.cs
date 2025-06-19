@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -5,7 +6,7 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    public static UIManager instance;
+    public static UIManager Instance;
 
     public enum GameUI
     {
@@ -30,8 +31,8 @@ public class UIManager : MonoBehaviour
 
     private void Awake()
     {
-        if (instance != null && instance != this) Destroy(gameObject);
-        instance = this;
+        if (Instance != null && Instance != this) Destroy(gameObject);
+        Instance = this;
 
         foreach (IGameUI enumeratedUI in UIContainer.GetComponentsInChildren<IGameUI>(true))
         {
